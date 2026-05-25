@@ -1,0 +1,13 @@
+[[experience]]
+institution = "NJU 3DV Lab"
+position = "Research Intern"
+date = "2025-07 - Present"
+advisor = "Prof. Xiaoxiao Long"
+image = "/experiences/nju.png"
+
+[[experience]]
+institution = "PKU HMI Lab"
+position = "Research Intern"
+date = "2024-11 - 2025-06"
+advisor = "Prof. Shanghang Zhang"
+image = "/experiences/pku.png"

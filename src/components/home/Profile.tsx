@@ -1,18 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import { SiteConfig } from '@/lib/config';
 import {
-    EnvelopeIcon,
     AcademicCapIcon,
+    EnvelopeIcon,
     HeartIcon,
     MapPinIcon
 } from '@heroicons/react/24/outline';
-import { MapPinIcon as MapPinSolidIcon, EnvelopeIcon as EnvelopeSolidIcon } from '@heroicons/react/24/solid';
-import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
+import { EnvelopeIcon as EnvelopeSolidIcon, HeartIcon as HeartSolidIcon, MapPinIcon as MapPinSolidIcon } from '@heroicons/react/24/solid';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Github, Linkedin, Pin } from 'lucide-react';
-import { SiteConfig } from '@/lib/config';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 // Custom ORCID icon component
 const OrcidIcon = ({ className }: { className?: string }) => (
@@ -42,6 +41,86 @@ export default function Profile({ author, social, features, researchInterests }:
     const [showEmail, setShowEmail] = useState(false);
     const [isEmailPinned, setIsEmailPinned] = useState(false);
     const [lastClickedTooltip, setLastClickedTooltip] = useState<'email' | 'address' | null>(null);
+
+    // Load visitor map script
+    useEffect(() => {
+        // Check if script already exists
+        if (document.getElementById('mapmyvisitors')) {
+            return;
+        }
+
+        // Wait for container to be ready
+        const container = document.getElementById('mapmyvisitors-container');
+        if (!container) {
+            return;
+        }
+
+        // Add CSS to limit map size and move any auto-created elements
+        const style = document.createElement('style');
+        style.id = 'mapmyvisitors-style';
+        style.textContent = `
+            #mapmyvisitors-container iframe,
+            #mapmyvisitors-container img,
+            #mapmyvisitors-container > div,
+            #mapmyvisitors-container canvas {
+                max-width: 100% !important;
+                max-height: 200px !important;
+                width: auto !important;
+                height: auto !important;
+            }
+            #mapmyvisitors-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                position: relative;
+            }
+            /* Move any mapmyvisitors elements created outside container */
+            body > div[id*="mapmyvisitors"],
+            body > iframe[id*="mapmyvisitors"] {
+                display: none !important;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create and load the script
+        const script = document.createElement('script');
+        script.id = 'mapmyvisitors';
+        script.type = 'text/javascript';
+        script.src = 'https://mapmyvisitors.com/map.js?cl=ffefef&w=a&t=tt&d=xqMBEn31IUxCWLAhELzhA-AnBjWumretyGqSFRiEk3w&co=739cba&ct=ffffff&cmo=3acc3a&cmn=ff5353';
+        script.async = true;
+        
+        // Append script to container
+        container.appendChild(script);
+
+        // Monitor for elements created by the script and move them to container
+        const observer = new MutationObserver(() => {
+            const mapElements = document.querySelectorAll('[id*="mapmyvisitors"], iframe[src*="mapmyvisitors"]');
+            mapElements.forEach((element) => {
+                if (element.parentElement !== container && element.parentElement !== null) {
+                    container.appendChild(element);
+                }
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        // Cleanup function
+        return () => {
+            observer.disconnect();
+            const existingScript = document.getElementById('mapmyvisitors');
+            if (existingScript && existingScript.parentNode) {
+                existingScript.parentNode.removeChild(existingScript);
+            }
+            const existingStyle = document.getElementById('mapmyvisitors-style');
+            if (existingStyle) {
+                document.head.removeChild(existingStyle);
+            }
+        };
+    }, []);
 
     // Check local storage for user's like status
     useEffect(() => {
@@ -110,7 +189,7 @@ export default function Profile({ author, social, features, researchInterests }:
             className="sticky top-8"
         >
             {/* Profile Image */}
-            <div className="w-64 h-64 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
+            <div className="w-64 h-64 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg">
                 <Image
                     src={author.avatar}
                     alt={author.name}
@@ -303,15 +382,27 @@ export default function Profile({ author, social, features, researchInterests }:
 
             {/* Research Interests */}
             {researchInterests && researchInterests.length > 0 && (
-                <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 mb-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
-                    <h3 className="font-semibold text-primary mb-3">Research Interests</h3>
-                    <div className="space-y-2 text-sm text-neutral-700 dark:text-neutral-500">
+                <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 mb-6">
+                    <h3 className="font-semibold text-primary mb-3 text-center">Research Interests</h3>
+                    <div className="space-y-2 text-sm text-neutral-700 dark:text-neutral-500 text-center">
                         {researchInterests.map((interest, index) => (
                             <div key={index}>{interest}</div>
                         ))}
                     </div>
                 </div>
             )}
+
+            {/* Visitor Map */}
+            <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-primary mb-3 text-center">Visitor Map</h3>
+                <div 
+                    id="mapmyvisitors-container" 
+                    className="w-full flex justify-center items-center overflow-hidden"
+                    style={{ maxWidth: '100%', height: '200px' }}
+                >
+                    {/* Script will inject content here */}
+                </div>
+            </div>
 
             {/* Like Button */}
             {features.enable_likes && (

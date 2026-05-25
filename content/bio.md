@@ -1,5 +1,11 @@
-I am a PhD student at the School of Science, University of Example, advised by [Prof. Advisor One](https://example.com) and [Dr. Advisor Two](https://example.com).
+Hi there! 👋
 
-Prior to this, I obtained a BSc degree with First Class Honours in Natural Science from the University of Example.
+I am Han Jiang (蒋涵). I am currently a third-year undergraduate student at [Nanjing University](https://www.nju.edu.cn/en/), majoring in Intelligence Science and Technology.
 
-My current research focuses on investigating the mathematical principles of natural philosophy.
+My Research Interest lie in Robot Learning for Manipulation 🤖. Specifically, I am interested on two topics:
+1. How can we enable robots to acquire knowledge from heterogeneous, action-free data such as human videos.
+2. How can we build a robust world model capable of capturing the complexity and open-ended nature of the real world.
+
+I am fortunate to learn and work with Prof.[Jiatao Gu](https://jiataogu.me/), Prof.[XiaoXiao Long](https://www.xxlong.site/) and Prof.[Shanghang Zhang](https://www.shanghangzhang.com/)
+
+*I'm actively seeking research collaboration opportunities, and I'm also happy to just chat and make new friends. Welcome to reach out! :)*

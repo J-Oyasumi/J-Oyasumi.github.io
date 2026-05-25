@@ -5,6 +5,8 @@ import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
+import Experience, { ExperienceItem } from '@/components/home/Experience';
+import Misc, { MiscItem } from '@/components/home/Misc';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
@@ -15,7 +17,7 @@ import { BasePageConfig, PublicationPageConfig, TextPageConfig, CardPageConfig }
 // Define types for section config
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list';
+  type: 'markdown' | 'publications' | 'list' | 'experience' | 'misc';
   title?: string;
   source?: string;
   filter?: string;
@@ -23,6 +25,8 @@ interface SectionConfig {
   content?: string;
   publications?: Publication[];
   items?: NewsItem[];
+  experienceItems?: ExperienceItem[];
+  miscItems?: MiscItem[];
 }
 
 type PageData =
@@ -64,6 +68,20 @@ export default function Home() {
           return {
             ...section,
             items: newsData?.news || []
+          };
+        }
+        case 'experience': {
+          const experienceData = section.source ? getTomlContent<{ experience: ExperienceItem[] }>(section.source) : null;
+          return {
+            ...section,
+            experienceItems: experienceData?.experience || []
+          };
+        }
+        case 'misc': {
+          const miscData = section.source ? getTomlContent<{ misc: MiscItem[] }>(section.source) : null;
+          return {
+            ...section,
+            miscItems: miscData?.misc || []
           };
         }
         default:
@@ -170,6 +188,22 @@ export default function Home() {
                       <News
                         key={section.id}
                         items={section.items || []}
+                        title={section.title}
+                      />
+                    );
+                  case 'experience':
+                    return (
+                      <Experience
+                        key={section.id}
+                        items={section.experienceItems || []}
+                        title={section.title}
+                      />
+                    );
+                  case 'misc':
+                    return (
+                      <Misc
+                        key={section.id}
+                        items={section.miscItems || []}
                         title={section.title}
                       />
                     );

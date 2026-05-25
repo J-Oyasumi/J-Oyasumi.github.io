@@ -1,29 +1,23 @@
 [site]
-title = "Jiale Liu"
-description = "PhD student at the University of Example."
-favicon = "/favicon.svg"
+title = "Han Jiang"
+description = "Undergraduate at Nanjing University"
+favicon = "/favicon.png"
 last_updated = "November 18, 2025"
 
 [author]
-name = "Jiale Liu"
-title = "PhD Student"
-institution = "University of Example"
+name = "Han Jiang"
+title = "Undergraduate"
+institution = "Nanjing University"
 avatar = "/bio.jpg"
 
 [social]
 # Contact information (leave blank or delete to hide)
 
-email = "john.doe@example.com"
-location = "City, Country"
-location_url = "https://maps.google.com"
-location_details = [
-  "Room 123, Science Building,",
-  "University Avenue, City, Country"
-]
-google_scholar = "https://scholar.google.com"
-orcid = "https://orcid.org"
-github = "https://github.com"
-linkedin = "https://linkedin.com"
+email = "hanjiang00@hotmail.com"
+google_scholar = "https://scholar.google.com/citations?user=bc9thmYAAAAJ&hl=zh-CN"
+orcid = ""
+github = "https://github.com/J-Oyasumi"
+linkedin = "https://www.linkedin.com/in/han-jiang-73636b383/"
 
 [features]
 # Show a like button on the about page
@@ -44,26 +38,9 @@ type = "page"
 target = "publications"
 href = "/publications"
 
-[[navigation]]
-title = "Teaching"
-type = "page"
-target = "teaching"
-href = "/teaching"
 
 [[navigation]]
 title = "Awards"
 type = "page"
 target = "awards"
 href = "/awards"
-
-[[navigation]]
-title = "Services"
-type = "page"
-target = "services"
-href = "/services"
-
-[[navigation]]
-title = "CV"
-type = "page"
-target = "cv"
-href = "/cv"

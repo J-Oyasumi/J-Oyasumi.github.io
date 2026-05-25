@@ -1,27 +1,17 @@
 type = "card"
 title = "Awards"
-description = "Honors and awards I have received."
+description = ""
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2025"
-content = "Description of the award."
+title = "Alishan Scholarship"
+subtitle = "Nanjing University"
+date = "2025-06"
+content = "Top 1% of the students."
 
 [[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2024"
-content = "Description of the award."
+title = "Duxia Scholarship"
+subtitle = "Nanjing University"
+date = "2024-09"
+content = "Top 5% of the students."
 
-[[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2023"
-content = "Description of the award."
 
-[[items]]
-title = "Example Award"
-subtitle = "Organization"
-date = "2022"
-content = "Description of the award."
