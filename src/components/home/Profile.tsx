@@ -99,7 +99,14 @@ export default function Profile({ author, social, features, researchInterests }:
         const observer = new MutationObserver(() => {
             const mapElements = document.querySelectorAll('[id*="mapmyvisitors"], iframe[src*="mapmyvisitors"]');
             mapElements.forEach((element) => {
-                if (element.parentElement !== container && element.parentElement !== null) {
+                // Skip the container itself and any of its ancestors —
+                // appending those into the container would throw
+                // "The new child element contains the parent".
+                if (
+                    !element.contains(container) &&
+                    element.parentElement !== container &&
+                    element.parentElement !== null
+                ) {
                     container.appendChild(element);
                 }
             });
