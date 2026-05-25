@@ -6,9 +6,13 @@
 
 [English](README.md) · **中文** · [在线演示](https://prism-demo.pages.dev) · [更新日志](CHANGELOG.md)
 
+**如果你喜欢这个项目，请给一个 Star ⭐️**
+
 PRISM 是 **P**ortfolio & **R**esearch **I**nterface **S**ite **M**aker（作品集与研究主页生成器）的缩写。这是一个基于 Next.js、Tailwind CSS 和 TypeScript 构建的现代化、高性能个人网站模板。
 
 PRISM 专为**研究人员、开发者和学者**量身打造，只为让你能以最优雅、最轻松的方式，向世界展示你的工作成果、学术论文和个人履历。
+
+你也可以借助编程智能体自定义属于自己的 PRISM 版本。
 
 ![PRISM 预览](screenshot.png)
 
@@ -25,7 +29,9 @@ PRISM 专为**研究人员、开发者和学者**量身打造，只为让你能�
 
 ### 前置要求
 
-*   Node.js 15 或更高版本
+*   Node.js 22 或更高版本
+    *   **重要提示**：请务必前往 [https://nodejs.org/en/download](https://nodejs.org/en/download) 手动下载并安装 Node.js。
+    *   最好不要使用系统自带的包管理器安装的版本，因为它们通常较旧且可能导致兼容性问题。
 *   npm, pnpm, 或 yarn
 
 ### 安装步骤
@@ -33,7 +39,7 @@ PRISM 专为**研究人员、开发者和学者**量身打造，只为让你能�
 1.  **克隆仓库：**
 
     ```bash
-    git clone https://github.com/yourusername/PRISM.git
+    git clone https://github.com/xyjoey/PRISM.git
     cd PRISM
     ```
 
@@ -82,6 +88,7 @@ enable_likes = true # 是否开启点赞功能
 
 直接从 Google Scholar、Zotero 或 Mendeley 导出你的论文列表到 `content/publications.bib`。PRISM 会自动解析并生成精美的论文页面。
 *   **小贴士**：你可以在 bib 文件中通过添加 `selected`, `preview` 和 `description` 字段来自定义论文的展示效果（例如是否在首页置顶、添加封面图等）。
+*   论文标题支持部分 BibTeX 行内格式命令，包括 `\textit{}`、`\emph{}`、`\textbf{}`、`\textsc{}`、`\textsuperscript{}` 和 `\textsubscript{}`。
 
 ### 4. 添加新页面
 
@@ -92,8 +99,19 @@ enable_likes = true # 是否开启点赞功能
 PRISM 支持以下几种页面类型：
 
 *   `text`: 纯文本渲染（Markdown），非常适合用来放 **个人简历 (CV)** 或 **详细介绍 (Bio)**。
-*   `card`: 卡片列表布局，适合展示 **项目 (Projects)** 或 **获奖经历 (Awards)**。
+*   `card`: 卡片列表布局，适合展示 **项目 (Projects)** 或 **获奖经历 (Awards)**。卡片条目的 `content` 字段支持 Markdown。
 *   `publication`: 完整的论文列表页，自带搜索和筛选器。
+
+### 5. 多语言支持（`content_<locale>/`）
+
+PRISM 现已支持多语言：
+
+*   默认语言内容放在 `content/`
+*   其他语言内容放在 `content_<locale>/`（例如：`content_zh/`、`content_en/`）。
+*   各语言目录保持同名文件。例如：`content/cv.md`（默认）、`content_zh/cv.md`
+*   若某个语言文件缺失，PRISM 会自动回退到默认 `content/` 中的同名文件。
+
+在 `content/config.toml` 中配置多语言行为：
 
 ## 📦 部署上线
 
