@@ -18,6 +18,7 @@ google_scholar = "https://scholar.google.com/citations?user=bc9thmYAAAAJ&hl=zh-C
 orcid = ""
 github = "https://github.com/J-Oyasumi"
 linkedin = "https://www.linkedin.com/in/han-jiang-73636b383/"
+twitter = "https://x.com/hanjiang00"
 
 [features]
 # Show a like button on the about page

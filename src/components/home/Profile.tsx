@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { EnvelopeIcon as EnvelopeSolidIcon, HeartIcon as HeartSolidIcon, MapPinIcon as MapPinSolidIcon } from '@heroicons/react/24/solid';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Github, Linkedin, Pin } from 'lucide-react';
+import { Github, Linkedin, Pin, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useMessages } from '@/lib/i18n/useMessages';
@@ -187,6 +187,11 @@ export default function Profile({ author, social, features, researchInterests }:
             name: 'LinkedIn',
             href: social.linkedin,
             icon: Linkedin,
+        }] : []),
+        ...(social.twitter ? [{
+            name: 'Twitter',
+            href: social.twitter,
+            icon: Twitter,
         }] : []),
     ];
 
