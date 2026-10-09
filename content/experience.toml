@@ -1,13 +1,18 @@
-[[experience]]
-institution = "NJU 3DV Lab"
-position = "Research Intern"
-date = "2025-07 - Present"
-advisor = "Prof. Xiaoxiao Long"
-image = "/experiences/nju.png"
+# 每段经历一个 [[experience]]，越新越靠前。
+#   start / end   年-月，如 "2025-09"；还在进行中写 end = "present"；只有一个时间点可以不写 end
+#   advisor       可写成 Markdown 链接："Prof. [Name](https://...)"，不需要就删掉这行
+#   image         可选，正方形 logo，放在 public/logos/，写成 "/logos/xxx.png"
 
 [[experience]]
-institution = "PKU HMI Lab"
+institution = "USC PSI Lab"
 position = "Research Intern"
-date = "2024-11 - 2025-06"
-advisor = "Prof. Shanghang Zhang"
-image = "/experiences/pku.png"
+start = "2026-03"
+end = "present"
+advisor = "Prof. [Yue Wang](https://yuewang.xyz/)"
+
+[[experience]]
+institution = "UPenn GRASP Lab"
+position = "Research Intern"
+start = "2025-09"
+end = "2026-02"
+advisor = "Prof. [Jiatao Gu](https://jiataogu.me/)"

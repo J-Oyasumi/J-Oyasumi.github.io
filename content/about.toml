@@ -1,11 +1,20 @@
+# About 页面（首页）的设置。
+#   research_interests   左栏照片下的研究方向，每行一个
+#   callout              黄色提示框里的一句话，删掉这一行就不显示
+#   [[sections]]         首页从上到下显示哪些板块；调整顺序就是调整显示顺序，
+#                        不想显示的板块在每行前面加 # 注释掉
+#   第一个 type = "markdown" 的板块（bio.md）固定显示在照片右边
+
 type = "about"
 title = "About"
 
 [profile]
 research_interests = [
   "Robot Learning",
-  "World Modeling",
+  "Humanoid Loco-Manipulation",
 ]
+# Shown as the yellow highlighter box under the bio. Delete the line to hide it.
+callout = "I'm happy to chat about research and make new friends. Welcome to reach out! :)"
 
 [[sections]]
 id = "about"
@@ -13,11 +22,23 @@ type = "markdown"
 source = "bio.md"
 title = "About"
 
+# [[sections]]
+# id = "news"
+# type = "list"
+# title = "News"
+# source = "news.toml"
+
 [[sections]]
-id = "news"
-type = "list"
-title = "News"
-source = "news.toml"
+id = "education"
+type = "education"
+title = "Education"
+source = "education.toml"
+
+[[sections]]
+id = "experience"
+type = "experience"
+title = "Experience"
+source = "experience.toml"
 
 
 # [[sections]]

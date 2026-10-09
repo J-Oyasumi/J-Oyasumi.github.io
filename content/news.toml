@@ -1,3 +1,8 @@
+# 每条新闻一个 [[news]]，越新越靠前。
+#   date      年-月，如 "2025-09"，页面显示为 "Sep 2025"
+#   content   一句话，可用 Markdown 链接 [文字](网址) 和 **加粗**
+# 主页目前不显示 News；要显示的话，去 about.toml 把 News 那一段前面的 # 去掉。
+
 [[news]]
 date = "2025-09"
 content = "AC-DiT was accepted by NeurIPS 2025 🎉"

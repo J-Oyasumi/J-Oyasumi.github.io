@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
+import { InlineMarkdown } from '@/components/ui/NotebookMarkdown';
 
 export interface MiscItem {
     title?: string;
@@ -16,50 +15,20 @@ interface MiscProps {
 
 export default function Misc({ items, title = 'Misc' }: MiscProps) {
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-        >
-            <h2 className="text-2xl font-serif font-bold text-primary mb-4">{title}</h2>
-            <div className="space-y-4">
+        <section className="nb-section" id="misc" aria-labelledby="misc-h">
+            <h2 id="misc-h" className="nb-h2">{title}</h2>
+            <ul className="nb-misc">
                 {items.map((item, index) => (
-                    <div key={index} className="text-sm text-neutral-700 dark:text-neutral-400">
-                        {item.title && (
-                            <h3 className="font-semibold text-primary mb-1">{item.title}</h3>
-                        )}
+                    <li key={index}>
+                        {item.title && <b>{item.title}: </b>}
                         {item.link ? (
-                            <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-accent hover:underline"
-                            >
-                                {item.content}
-                            </a>
+                            <a href={item.link} className="nb-link" target="_blank" rel="noopener noreferrer">{item.content}</a>
                         ) : (
-                            <div>
-                                <ReactMarkdown
-                                    components={{
-                                        p: ({ children }) => <p className="mb-0">{children}</p>,
-                                        a: ({ ...props }) => (
-                                            <a
-                                                {...props}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-accent hover:underline"
-                                            />
-                                        ),
-                                    }}
-                                >
-                                    {item.content}
-                                </ReactMarkdown>
-                            </div>
+                            <InlineMarkdown>{item.content}</InlineMarkdown>
                         )}
-                    </div>
+                    </li>
                 ))}
-            </div>
-        </motion.section>
+            </ul>
+        </section>
     );
 }
-

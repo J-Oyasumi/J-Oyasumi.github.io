@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '@/components/layout/Navigation';
-import Footer from '@/components/layout/Footer';
+import Masthead from '@/components/layout/Masthead';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { LocaleProvider } from '@/components/ui/LocaleProvider';
 import { getConfig } from '@/lib/config';
@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${config.site.title}`,
     },
     description: config.site.description,
-    keywords: [config.author.name, 'PhD', 'Research', config.author.institution],
+    keywords: [config.author.name, 'Robot Learning', 'Research', config.author.institution],
     authors: [{ name: config.author.name }],
     creator: config.author.name,
     publisher: config.author.name,
@@ -93,23 +93,19 @@ function buildLocalizedConfigMaps(
 ): {
   navigationByLocale: Record<string, SiteConfig['navigation']>;
   siteTitleByLocale: Record<string, string>;
-  lastUpdatedByLocale: Record<string, string | undefined>;
 } {
   const navigationByLocale: Record<string, SiteConfig['navigation']> = {};
   const siteTitleByLocale: Record<string, string> = {};
-  const lastUpdatedByLocale: Record<string, string | undefined> = {};
 
   for (const locale of locales) {
     const localizedConfig = getConfig(locale);
     navigationByLocale[locale] = localizedConfig.navigation;
     siteTitleByLocale[locale] = localizedConfig.site.title;
-    lastUpdatedByLocale[locale] = localizedConfig.site.last_updated;
   }
 
   return {
     navigationByLocale,
     siteTitleByLocale,
-    lastUpdatedByLocale,
   };
 }
 
@@ -125,21 +121,17 @@ export default function RootLayout({
   const {
     navigationByLocale,
     siteTitleByLocale,
-    lastUpdatedByLocale,
   } = buildLocalizedConfigMaps(targetLocales);
 
   return (
     <html lang={runtimeI18n.defaultLocale} className="scroll-smooth" suppressHydrationWarning>
       <head>
         <link rel="icon" href={config.site.favicon} type="image/svg+xml" />
-        <link rel="dns-prefetch" href="https://jialeliu.com" />
-        <link rel="preconnect" href="https://jialeliu.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          href="https://jialeliu.com/fonts/georgiab.woff2"
-          crossOrigin=""
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -178,14 +170,10 @@ export default function RootLayout({
               itemsByLocale={navigationByLocale}
               siteTitleByLocale={siteTitleByLocale}
             />
-            <main className="min-h-screen pt-16 lg:pt-20">
+            <Masthead author={config.author} />
+            <main className="min-h-[60vh]">
               {children}
             </main>
-            <Footer
-              lastUpdated={config.site.last_updated}
-              lastUpdatedByLocale={lastUpdatedByLocale}
-              defaultLocale={runtimeI18n.defaultLocale}
-            />
           </LocaleProvider>
         </ThemeProvider>
       </body>

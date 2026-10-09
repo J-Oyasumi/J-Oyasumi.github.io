@@ -17,7 +17,10 @@ export interface TextPageConfig extends BasePageConfig {
 export interface CardItem {
     title: string;
     subtitle?: string;
+    /** "2025-06", or use start/end for a range */
     date?: string;
+    start?: string;
+    end?: string;
     content?: string;
     tags?: string[];
     link?: string;

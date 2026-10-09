@@ -38,7 +38,10 @@ const monthMapping: Record<string, number> = {
 
 export function parseBibTeX(bibtexContent: string, locale?: string): Publication[] {
   const highlightNames = getHighlightNames(locale);
-  const entries = bibtexParse.toJSON(bibtexContent);
+  // @comment / @preamble / @string blocks are notes, not papers.
+  const entries = bibtexParse
+    .toJSON(bibtexContent)
+    .filter((entry: { entryType: string }) => !['comment', 'preamble', 'string'].includes(entry.entryType.toLowerCase()));
 
   return entries.map((entry: { entryType: string; citationKey: string; entryTags: Record<string, string> }, index: number) => {
     const tags = entry.entryTags;

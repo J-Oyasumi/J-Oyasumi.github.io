@@ -1,3 +1,10 @@
+# Awards 页面。每个奖一个 [[items]]，越新越靠前。
+#   title      奖项名（加粗）
+#   subtitle   颁发单位
+#   date       年-月，如 "2025-06"（也可以用 start / end 写一个时间段）
+#   content    补充说明，可选
+#   link       可选，点奖项名跳转的链接
+
 type = "card"
 title = "Awards"
 description = ""

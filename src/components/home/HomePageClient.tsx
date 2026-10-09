@@ -1,10 +1,13 @@
 'use client';
 
-import Profile from '@/components/home/Profile';
-import About from '@/components/home/About';
+import Image from 'next/image';
+import SocialLinks from '@/components/home/SocialLinks';
+import VisitorMap from '@/components/home/VisitorMap';
+import { NotebookMarkdown } from '@/components/ui/NotebookMarkdown';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
 import Experience, { ExperienceItem } from '@/components/home/Experience';
+import Education, { EducationItem } from '@/components/home/Education';
 import Misc, { MiscItem } from '@/components/home/Misc';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
@@ -16,7 +19,7 @@ import { useLocaleStore } from '@/lib/stores/localeStore';
 
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list' | 'experience' | 'misc';
+  type: 'markdown' | 'publications' | 'list' | 'experience' | 'education' | 'misc';
   title?: string;
   source?: string;
   filter?: string;
@@ -25,6 +28,7 @@ interface SectionConfig {
   publications?: Publication[];
   items?: NewsItem[];
   experienceItems?: ExperienceItem[];
+  educationItems?: EducationItem[];
   miscItems?: MiscItem[];
 }
 
@@ -40,6 +44,7 @@ export interface HomePageLocaleData {
   features: SiteConfig['features'];
   enableOnePageMode?: boolean;
   researchInterests?: string[];
+  callout?: string;
   pagesToShow: PageData[];
 }
 
@@ -58,91 +63,82 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-background min-h-screen">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-1">
-          <Profile
-            author={data.author}
-            social={data.social}
-            features={data.features}
-            researchInterests={data.researchInterests}
-          />
-        </div>
-
-        <div className="lg:col-span-2 space-y-8">
-          {data.pagesToShow.map((page) => (
-            <section key={page.id} id={page.id} className="scroll-mt-24 space-y-8">
-              {page.type === 'about' && page.sections.map((section: SectionConfig) => {
-                switch (section.type) {
-                  case 'markdown':
-                    return (
-                      <About
-                        key={section.id}
-                        content={section.content || ''}
-                        title={section.title}
-                      />
-                    );
-                  case 'publications':
-                    return (
-                      <SelectedPublications
-                        key={section.id}
-                        publications={section.publications || []}
-                        title={section.title}
-                        enableOnePageMode={data.enableOnePageMode}
-                      />
-                    );
-                  case 'list':
-                    return (
-                      <News
-                        key={section.id}
-                        items={section.items || []}
-                        title={section.title}
-                      />
-                    );
-                  case 'experience':
-                    return (
-                      <Experience
-                        key={section.id}
-                        items={section.experienceItems || []}
-                        title={section.title}
-                      />
-                    );
-                  case 'misc':
-                    return (
-                      <Misc
-                        key={section.id}
-                        items={section.miscItems || []}
-                        title={section.title}
-                      />
-                    );
-                  default:
-                    return null;
-                }
-              })}
+    <div className="nb-wrap nb-page">
+      {data.pagesToShow.map((page) => {
+        if (page.type !== 'about') {
+          return (
+            <div key={page.id} id={page.id} className="nb-section scroll-mt-8">
               {page.type === 'publication' && (
-                <PublicationsList
-                  config={page.config}
-                  publications={page.publications}
-                  embedded={true}
-                />
+                <PublicationsList config={page.config} publications={page.publications} embedded={true} />
               )}
-              {page.type === 'text' && (
-                <TextPage
-                  config={page.config}
-                  content={page.content}
-                  embedded={true}
-                />
-              )}
-              {page.type === 'card' && (
-                <CardPage
-                  config={page.config}
-                  embedded={true}
-                />
-              )}
+              {page.type === 'text' && <TextPage config={page.config} content={page.content} embedded={true} />}
+              {page.type === 'card' && <CardPage config={page.config} embedded={true} />}
+            </div>
+          );
+        }
+
+        // The first markdown section is the bio; it sits beside the profile column.
+        const bio = page.sections.find((section) => section.type === 'markdown');
+        const rest = page.sections.filter((section) => section !== bio);
+
+        return (
+          <div key={page.id} id={page.id}>
+            <section className="nb-about" aria-label={bio?.title || 'About'}>
+              <aside className="nb-profile">
+                <figure className="nb-photo">
+                  <Image src={data.author.avatar} alt={`Portrait of ${data.author.name}`} width={464} height={580} priority />
+                </figure>
+                {data.researchInterests && data.researchInterests.length > 0 && (
+                  <dl className="nb-interests nb-mono">
+                    <dt>Research interests</dt>
+                    {data.researchInterests.map((interest) => <dd key={interest}><span>{interest}</span></dd>)}
+                  </dl>
+                )}
+                {data.callout && <p className="nb-callout">{data.callout}</p>}
+              </aside>
+              <div className="nb-bio">
+                {bio?.content && <NotebookMarkdown>{bio.content}</NotebookMarkdown>}
+              </div>
             </section>
-          ))}
-        </div>
-      </div>
+
+            <SocialLinks social={data.social} />
+
+            {rest.length > 0 && <hr className="nb-rule" />}
+
+            {rest.map((section: SectionConfig) => {
+              switch (section.type) {
+                case 'publications':
+                  return (
+                    <SelectedPublications
+                      key={section.id}
+                      publications={section.publications || []}
+                      title={section.title}
+                      enableOnePageMode={data.enableOnePageMode}
+                    />
+                  );
+                case 'list':
+                  return <News key={section.id} items={section.items || []} title={section.title} />;
+                case 'experience':
+                  return <Experience key={section.id} items={section.experienceItems || []} title={section.title} />;
+                case 'education':
+                  return <Education key={section.id} items={section.educationItems || []} title={section.title} />;
+                case 'misc':
+                  return <Misc key={section.id} items={section.miscItems || []} title={section.title} />;
+                case 'markdown':
+                  return (
+                    <section key={section.id} className="nb-section nb-bio">
+                      {section.title && <h2 className="nb-h2">{section.title}</h2>}
+                      <NotebookMarkdown>{section.content || ''}</NotebookMarkdown>
+                    </section>
+                  );
+                default:
+                  return null;
+              }
+            })}
+          </div>
+        );
+      })}
+      {data.features.visitor_map && <VisitorMap src={data.features.visitor_map} />}
     </div>
   );
 }

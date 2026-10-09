@@ -3,6 +3,7 @@ import { getMarkdownContent, getBibtexContent, getTomlContent, getPageConfig } f
 import { parseBibTeX } from '@/lib/bibtexParser';
 import HomePageClient, { type HomePageLocaleData } from '@/components/home/HomePageClient';
 import type { ExperienceItem } from '@/components/home/Experience';
+import type { EducationItem } from '@/components/home/Education';
 import type { MiscItem } from '@/components/home/Misc';
 import { Publication } from '@/types/publication';
 import { BasePageConfig, PublicationPageConfig, TextPageConfig, CardPageConfig } from '@/types/page';
@@ -10,7 +11,7 @@ import { getRuntimeI18nConfig } from '@/lib/i18n/config';
 
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list' | 'experience' | 'misc';
+  type: 'markdown' | 'publications' | 'list' | 'experience' | 'education' | 'misc';
   title?: string;
   source?: string;
   filter?: string;
@@ -19,6 +20,7 @@ interface SectionConfig {
   publications?: Publication[];
   items?: NewsItem[];
   experienceItems?: ExperienceItem[];
+  educationItems?: EducationItem[];
   miscItems?: MiscItem[];
 }
 
@@ -66,6 +68,13 @@ function processSections(sections: SectionConfig[], locale?: string): SectionCon
           experienceItems: experienceData?.experience || [],
         };
       }
+      case 'education': {
+        const educationData = section.source ? getTomlContent<{ education: EducationItem[] }>(section.source, locale) : null;
+        return {
+          ...section,
+          educationItems: educationData?.education || [],
+        };
+      }
       case 'misc': {
         const miscData = section.source ? getTomlContent<{ misc: MiscItem[] }>(section.source, locale) : null;
         return {
@@ -83,8 +92,9 @@ function loadPageDataForLocale(locale: string | undefined): HomePageLocaleData {
   const localeConfig = getConfig(locale);
   const enableOnePageMode = localeConfig.features.enable_one_page_mode;
 
-  const aboutConfig = getPageConfig<{ profile?: { research_interests?: string[] }; sections?: SectionConfig[] }>('about', locale);
+  const aboutConfig = getPageConfig<{ profile?: { research_interests?: string[]; callout?: string }; sections?: SectionConfig[] }>('about', locale);
   const researchInterests = aboutConfig?.profile?.research_interests;
+  const callout = aboutConfig?.profile?.callout;
 
   let pagesToShow: PageData[] = [];
 
@@ -151,6 +161,7 @@ function loadPageDataForLocale(locale: string | undefined): HomePageLocaleData {
     features: localeConfig.features,
     enableOnePageMode,
     researchInterests,
+    callout,
     pagesToShow,
   };
 }

@@ -1,0 +1,13 @@
+# 每段学历一个 [[education]]，越新越靠前。
+#   start / end   年-月，如 "2023-09"；在读写 end = "present"
+#   url           可选，学校主页（学校名会变成链接）
+#   image         可选，正方形 logo，放在 public/logos/，写成 "/logos/xxx.png"
+#   details       可选，学位下面再加一行（如 GPA、交换经历），可用 Markdown 链接
+
+[[education]]
+institution = "Nanjing University"
+url = "https://www.nju.edu.cn/en/"
+degree = "B.Eng. in Intelligence Science and Technology"
+start = "2023-09"
+end = "present"
+image = "/logos/nju.png"

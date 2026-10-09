@@ -8,19 +8,16 @@ export interface SiteConfig {
     title: string;
     description: string;
     favicon: string;
-    last_updated?: string;
   };
   author: {
     name: string;
+    name_zh?: string;
     title: string;
     institution: string;
     avatar: string;
   };
   social: {
     email?: string;
-    location?: string;
-    location_url?: string;
-    location_details?: string[];
     google_scholar?: string;
     orcid?: string;
     github?: string;
@@ -29,22 +26,14 @@ export interface SiteConfig {
     [key: string]: string | string[] | undefined;
   };
   features: {
-    enable_likes: boolean;
     enable_one_page_mode?: boolean;
+    visitor_map?: string;
   };
   navigation: Array<{
     title: string;
     type: 'section' | 'page' | 'link';
     target: string;
     href: string;
-  }>;
-  sections?: Array<{
-    id: string;
-    type: 'markdown' | 'publications' | 'list' | 'cards';
-    source?: string;
-    title?: string;
-    filter?: string;
-    limit?: number;
   }>;
   i18n?: I18nConfig;
 }
@@ -86,7 +75,6 @@ function mergeConfig(base: SiteConfig, localized?: Partial<SiteConfig> | null): 
     },
     features: base.features,
     navigation: localized.navigation || base.navigation,
-    sections: localized.sections || base.sections,
     // i18n is always sourced from default content/config.toml
     i18n: base.i18n,
   };
