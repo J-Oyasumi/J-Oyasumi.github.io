@@ -4,11 +4,19 @@
 #   image         可选，正方形 logo，放在 public/logos/，写成 "/logos/xxx.png"
 
 [[experience]]
+institution = "Sharpa Robotics"
+position = "Research Intern"
+start = "2026-11"
+end = "present"
+image = "/logos/sharpa.png"
+
+[[experience]]
 institution = "USC PSI Lab"
 position = "Research Intern"
 start = "2026-03"
 end = "present"
 advisor = "Prof. [Yue Wang](https://yuewang.xyz/)"
+image = "/logos/usc-psi-lab.png"
 
 [[experience]]
 institution = "UPenn GRASP Lab"
@@ -16,3 +24,4 @@ position = "Research Intern"
 start = "2025-09"
 end = "2026-02"
 advisor = "Prof. [Jiatao Gu](https://jiataogu.me/)"
+image = "/logos/upenn-grasp-lab.png"
