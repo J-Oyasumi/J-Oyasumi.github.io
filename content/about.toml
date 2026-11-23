@@ -12,6 +12,7 @@ title = "About"
 research_interests = [
   "Robot Learning",
   "Humanoid Loco-Manipulation",
+  "Dexterous Manipulation",
 ]
 # Shown as the yellow highlighter box under the bio. Delete the line to hide it.
 callout = "I'm happy to chat about research and make new friends. Welcome to reach out! :)"
